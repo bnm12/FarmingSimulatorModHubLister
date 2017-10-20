@@ -49,13 +49,16 @@ function modhubCrawlerService($http, $q, $sce){
 
                 var modObj = {
                     id: ele.find('.mod-item__img > a').get(0).search.match(/mod_id=(\d*?)&/i)[1] * 1,
-                    imageUrl: $sce.trustAsResourceUrl(ele.find('.mod-item__img > a > img').get(0).src),
+                    imageUrl: ele.find('.mod-item__img > a > img').get(0).src,
                     title: itemContent.children('h4').text(),
                     creator: itemContent.find('p > span').text().match(/By: (.*?$)/i)[1],
                     rating: ratingString.match(/(^[\d.]*)/i)[1],
                     votes: ratingString.match(/\(([\d]*?)\)$/im)[1],
                     label: ele.find('.mod-label').text().replace('!', '')
                 };
+
+                $sce.trustAsResourceUrl('https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent(modObj.imageUrl));
+
                 modObjs.push(modObj);
             }, function(response){
                 if(response.status == 503 || response.status == 522 || response.status == 523){
