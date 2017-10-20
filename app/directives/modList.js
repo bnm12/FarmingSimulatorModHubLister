@@ -13,7 +13,7 @@ function modListController(modhubCrawlerService, $location, $http) {
 
     var vm = this;
 
-    var iframe = angular.element('<iframe src="https://farming-simulator.com" style="display:none"></iframe>').appendTo('body');
+    var iframe = angular.element('<iframe src="https://farming-simulator.com/img/page/logo-main_en.png" style="display:none"></iframe>').appendTo('body');
 
     vm.mods = [];
     vm.loading = true;
