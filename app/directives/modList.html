@@ -1,7 +1,32 @@
-<h3 ng-if="modListCtl.loading">Loading mods...</h3>
-<div ng-repeat="mod in modListCtl.mods">
-    <div>
-        <a ng-href="https://farming-simulator.com/mod.php?lang=en&country=us&title=fs2017&mod_id={{mod.id}}" target="_blank">{{mod.title}} - {{mod.rating}} ({{mod.votes}}) </a>
-        <button ng-click="modListCtl.downloadMod(mod)">Download (experimental)</button>
+<h3 ng-if="modListCtl.loading">Loading mods... ({{modListCtl.mods.length}})</h3>
+
+<div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search" ng-model="searchString" />
     </div>
-</div>
+</diV>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th ng-click="orderObj = 'id'">#</th>
+            <th ng-click="orderObj = 'title'">Title</th>
+            <th ng-click="orderObj = 'creator'">Creator</th>
+            <th ng-click="orderObj = 'rating'">Rating</th>
+            <th ng-click="orderObj = 'votes'">Votes</th>
+            <th ng-click="orderObj = 'label'">Label</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="mod in modListCtl.mods | filter: searchString | orderBy: orderObj">
+            <td>{{mod.id}}</td>
+            <td>{{mod.title}}</td>
+            <td>{{mod.creator}}</td>
+            <td>{{mod.rating}}</td>
+            <td>{{mod.votes}}</td>
+            <td>{{mod.label}}</td>
+            <td><button ng-click="modListCtl.downloadMod(mod)">Download (experimental)</button></td>
+        </tr>
+    </tbody>
+
+</table>
