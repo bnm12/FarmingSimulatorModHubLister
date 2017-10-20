@@ -1,0 +1,6 @@
+<div ng-repeat="mod in modListCtl.mods">
+    <div>
+        <a ng-href="https://farming-simulator.com/mod.php?lang=en&country=us&title=fs2017&mod_id={{mod.id}}" target="_blank">{{mod.title}} - {{mod.rating}} ({{mod.votes}}) </a>
+        <button ng-click="modListCtl.downloadMod(mod)">Download (experimental)</button>
+    </div>
+</div>
