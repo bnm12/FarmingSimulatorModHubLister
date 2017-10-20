@@ -2,7 +2,7 @@ angular.module('FarmingSimApp').directive('modList', modList).controller('modLis
 
 function modList(){
     return {
-        templateUrl: 'directives/modlist.html',
+        templateUrl: 'directives/modList.html',
         controller: 'modListController as modListCtl'
     }
 }
