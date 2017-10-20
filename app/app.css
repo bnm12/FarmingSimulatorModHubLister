@@ -1,0 +1,6 @@
+th.clickable {
+  cursor: pointer;
+}
+th.clickable:hover {
+  background-color: #ddd;
+}

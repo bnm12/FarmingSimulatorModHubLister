@@ -1,4 +1,7 @@
-<h3 ng-if="modListCtl.loading">Loading mods... ({{modListCtl.mods.length}})</h3>
+<div ng-if="modListCtl.loading">
+    <h3>Loading mods... ({{modListCtl.mods.length}}) <img style="height: 56px; width: 56px; display: inline-block; margin: -10px" src="img/loading.svg" /></h3>
+</div>
+
 
 <div>
     <div class="form-group">
@@ -9,16 +12,16 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th ng-click="orderObj = 'id'">#</th>
-            <th ng-click="orderObj = 'title'">Title</th>
-            <th ng-click="orderObj = 'creator'">Creator</th>
-            <th ng-click="orderObj = 'rating'">Rating</th>
-            <th ng-click="orderObj = 'votes'">Votes</th>
-            <th ng-click="orderObj = 'label'">Label</th>
+            <th class="clickable" ng-click="desc = orderObj == 'id' ? !desc : false; orderObj = 'id'"># <i class="glyphicon" ng-class="{'glyphicon-chevron-up': orderObj == 'id' && !desc, 'glyphicon-chevron-down':  orderObj == 'id' && desc}"></i></th>
+            <th class="clickable" ng-click="desc = orderObj == 'title' ? !desc : false; orderObj = 'title'">Title <i class="glyphicon" ng-class="{'glyphicon-chevron-up': orderObj == 'title' && !desc, 'glyphicon-chevron-down':  orderObj == 'title' && desc}"></i></th>
+            <th class="clickable" ng-click="desc = orderObj == 'creator' ? !desc : false; orderObj = 'creator'">Creator <i class="glyphicon" ng-class="{'glyphicon-chevron-up': orderObj == 'creator' && !desc, 'glyphicon-chevron-down':  orderObj == 'creator' && desc}"></i></th>
+            <th class="clickable" ng-click="desc = orderObj == 'rating' ? !desc : false; orderObj = 'rating'">Rating <i class="glyphicon" ng-class="{'glyphicon-chevron-up': orderObj == 'rating' && !desc, 'glyphicon-chevron-down':  orderObj == 'rating' && desc}"></i></th>
+            <th class="clickable" ng-click="desc = orderObj == 'votes' ? !desc : false; orderObj = 'votes'">Votes <i class="glyphicon" ng-class="{'glyphicon-chevron-up': orderObj == 'votes' && !desc, 'glyphicon-chevron-down':  orderObj == 'votes' && desc}"></i></th>
+            <th class="clickable" ng-click="desc = orderObj == 'label' ? !desc : false; orderObj = 'label'">Label <i class="glyphicon" ng-class="{'glyphicon-chevron-up': orderObj == 'label' && !desc, 'glyphicon-chevron-down':  orderObj == 'label' && desc}"></i></th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="mod in modListCtl.mods | filter: searchString | orderBy: orderObj">
+        <tr ng-repeat="mod in modListCtl.mods | filter: searchString | orderBy: orderObj: desc">
             <td><img ng-src="{{modListCtl.imageLoader(mod.imageUrl)}}" title="{{mod.id}}"/></td>
             <td><a ng-href="https://farming-simulator.com/mod.php?lang=en&country=us&title=fs2017&mod_id={{mod.id}}">{{mod.title}}</a></td>
             <td>{{mod.creator}}</td>
