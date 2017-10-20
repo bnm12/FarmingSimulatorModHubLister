@@ -18,6 +18,10 @@ function modListController(modhubCrawlerService, $location, $http) {
     vm.mods = [];
     vm.loading = true;
 
+    vm.imageLoader = function(url){
+        contentLocation.href = url;
+    }
+
     getPage(0);
 
     function getPage(page) {
