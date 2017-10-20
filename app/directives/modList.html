@@ -22,12 +22,12 @@
     </thead>
     <tbody>
         <tr ng-repeat="mod in modListCtl.mods | filter: searchString | orderBy: orderObj: desc">
-            <td><img ng-src="{{modListCtl.imageLoader(mod.imageUrl)}}" title="{{mod.id}}"/></td>
-            <td><a ng-href="https://farming-simulator.com/mod.php?lang=en&country=us&title=fs2017&mod_id={{mod.id}}">{{mod.title}}</a></td>
-            <td>{{mod.creator}}</td>
-            <td>{{mod.rating}}</td>
-            <td>{{mod.votes}}</td>
-            <td>{{mod.label}}</td>
+            <td><img ng-src="{{::modListCtl.imageLoader(mod.imageUrl)}}" title="{{::mod.id}}"/></td>
+            <td><a ng-href="https://farming-simulator.com/mod.php?lang=en&country=us&title=fs2017&mod_id={{mod.id}}">{{::mod.title}}</a></td>
+            <td>{{::mod.creator}}</td>
+            <td>{{::mod.rating}}</td>
+            <td>{{::mod.votes}}</td>
+            <td>{{::mod.label}}</td>
             <td><button ng-click="modListCtl.downloadMod(mod)">Download (experimental)</button></td>
         </tr>
     </tbody>
