@@ -19,8 +19,8 @@
     </thead>
     <tbody>
         <tr ng-repeat="mod in modListCtl.mods | filter: searchString | orderBy: orderObj">
-            <td><img ng-src="{{mod.imageUrl}}" title="{{mod.id}}"/></td>
-            <td><a ng-href="https://farming-simulator.com/mod.php?lang=en&country=us&title=fs2017&mod_id={{mod.id}}" >{{mod.title}}</a></td>
+            <td><iframe src="https://localhost" scrolling="no" ng-src="{{mod.imageUrl}}" style="height: 256px; width: 256px; overflow: hidden"></iframe></td>
+            <td><a ng-href="https://farming-simulator.com/mod.php?lang=en&country=us&title=fs2017&mod_id={{mod.id}}">{{mod.title}}</a></td>
             <td>{{mod.creator}}</td>
             <td>{{mod.rating}}</td>
             <td>{{mod.votes}}</td>

@@ -1,10 +1,10 @@
 angular.module('FarmingSimApp').factory('modhubCrawlerService', modhubCrawlerService);
 
-modhubCrawlerService.$inject = ['$http', '$q'];
+modhubCrawlerService.$inject = ['$http', '$q', '$sce'];
 
 var selectedProxy;  
 
-function modhubCrawlerService($http, $q){
+function modhubCrawlerService($http, $q, $sce){
 
     selectProxy();
     var baseUrl = 'https://farming-simulator.com';
@@ -49,7 +49,7 @@ function modhubCrawlerService($http, $q){
 
                 var modObj = {
                     id: ele.find('.mod-item__img > a').get(0).search.match(/mod_id=(\d*?)&/i)[1] * 1,
-                    imageUrl: ele.find('.mod-item__img > a > img').get(0).src,
+                    imageUrl: $sce.trustAsResourceUrl(ele.find('.mod-item__img > a > img').get(0).src),
                     title: itemContent.children('h4').text(),
                     creator: itemContent.find('p > span').text().match(/By: (.*?$)/i)[1],
                     rating: ratingString.match(/(^[\d.]*)/i)[1],

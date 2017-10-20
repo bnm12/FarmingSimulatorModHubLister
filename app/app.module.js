@@ -1,5 +1,6 @@
 'use strict';
 
 angular.module('FarmingSimApp', [
-  'ngAnimate'
+  'ngAnimate',
+  'ngSanitize'
 ]);
