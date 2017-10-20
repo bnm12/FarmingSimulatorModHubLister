@@ -2,6 +2,5 @@
 
 angular.module('FarmingSimApp', [
   'ngAnimate',
-  'ngSanitize',
-  'ngOnload'
+  'ngSanitize'
 ]);
