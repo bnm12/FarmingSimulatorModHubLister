@@ -43,9 +43,10 @@ function modListController(modhubCrawlerService, $location, $http) {
 
         iframe.attr('src', 'https://cdn16.giants-software.com/modHub/storage/' + ("0000000"+mod.id).slice(-8) + '/FS17_' + mod.title.split(' ').join('_') + '.zip');
 
-        /*$http({
+        /*
+        $http({
             method: 'GET',
-            url: 'https://cdn16.giants-software.com/modHub/storage/' + ("0000000"+mod.id).slice(-8) + '/FS17_' + mod.title.split(' ').join('_') + '.zip',
+            url: 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent('https://cdn16.giants-software.com/modHub/storage/' + ("0000000"+mod.id).slice(-8) + '/FS17_' + mod.title.split(' ').join('_') + '.zip'),
             responseType: 'arraybuffer'
         }).then(function(response){
             var blob = new Blob([response.data], { type:"application/octet-stream" });			
@@ -53,7 +54,8 @@ function modListController(modhubCrawlerService, $location, $http) {
             downloadLink.attr('href',(window.URL || window.webkitURL).createObjectURL(blob));
             downloadLink.attr('download', 'FS17_' + mod.title.split(' ').join('_') + '.zip');
             downloadLink[0].click();
-        });*/
+        });
+        */
 
     }
 }
