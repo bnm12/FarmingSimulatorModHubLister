@@ -41,7 +41,7 @@ function modhubCrawlerService($http, $q, $sce){
 
             var modObjs = [];
             
-            dataObj.find('.mod-item__img a[href^="mod.php"]').parents('.mod-item').each(function(index){
+            dataObj.find('.mod-item__img a[href^="mod.php"]').closest('.mod-item').each(function(index){
                 var ele = $(this);
 
                 var itemContent = ele.find('.mod-item__content');
