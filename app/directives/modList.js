@@ -7,9 +7,9 @@ function modList(){
     }
 }
 
-modListController.$inject = ['modhubCrawlerService', '$location', '$http'];
+modListController.$inject = ['modhubCrawlerService', '$location', '$http', '$q'];
 
-function modListController(modhubCrawlerService, $location, $http) {
+function modListController(modhubCrawlerService, $location, $http, $q) {
 
     var vm = this;
 
@@ -25,18 +25,45 @@ function modListController(modhubCrawlerService, $location, $http) {
         return 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent(url);
     }
 
-    getPage(0);
+    modhubCrawlerService.getCategories().then(function(categories){
+        vm.categories = categories;
 
-    function getPage(page) {
+        var promises = [];
+        for(var i = 0; i < vm.categories.length; i++){
+            promises.push(getPage(0, vm.categories[i], []).then(function(mods){
+
+                var notDupes = [].concat(mods);
+                for(var i = 0; i < vm.mods.length; i++){
+                    for(var j = 0; j < notDupes.length; j++){
+                        if(vm.mods[i].id === notDupes[j].id){
+                            var combinedMod = vm.mods[i];
+                            combinedMod.categories = combinedMod.categories.concat(notDupes[j].categories);
+                            vm.mods[i] = combinedMod;
+                            notDupes.splice(j, 1);
+                            j--; // Go back one to make the index match again
+                        }
+                    }
+                }
+
+                vm.mods = vm.mods.concat(notDupes);
+                return mods;
+            }));
+        }
+
+        $q.all(promises).then(function(results){
+            vm.loading = false;
+        });
+    });
+
+    function getPage(page, category, mods) {
         
-        modhubCrawlerService.getPage(page).then(function(data){
-            vm.mods = vm.mods.concat(data.mods);
-            
+        return modhubCrawlerService.getPage(page, category).then(function(data){
+            mods = mods.concat(data.mods)
             if(data.nextPageId !== undefined){
-                getPage(data.nextPageId);
+                return getPage(data.nextPageId, data.category, mods);
             }
             else {
-                vm.loading = false;
+                return $q.when(mods);
             }
         });
     }
