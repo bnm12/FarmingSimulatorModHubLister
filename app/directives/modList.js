@@ -18,6 +18,8 @@ function modListController(modhubCrawlerService, $location, $http) {
     vm.mods = [];
     vm.loading = true;
 
+    vm.pageSize = $location.search().pageSize || 20;
+
     vm.imageLoader = function(url){
         if($location.search().noImages) return null;
         return 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent(url);
