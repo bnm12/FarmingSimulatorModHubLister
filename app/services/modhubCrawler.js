@@ -18,13 +18,30 @@ function modhubCrawlerService($http, $q, $sce){
 
         getCategories: getCategories,
 
-        getMod: function(modId) {
-
-        }
+        getMod: getMod
 
     }
 
     return service;
+
+    function getMod(modId) {
+        return $http({
+            method: 'GET',
+            url: generateCORSUrl(baseUrl + '/mod.php?mod_id=' + modId),
+            transformResponse : function(data) {
+                // string -> XML document object
+                return $.parseHTML(data);
+            }
+        }).then(function (response){
+            return parseModPage(response.data);
+        }, function(response){ // Fail
+            if(response.status == 503 || response.status == 522 || response.status == 523){
+                return getMod(modId);
+            }
+        }).catch(function(error){ //Error
+            return getMod(modId);
+        });
+    }
 
     function getCategories() {
         return $http({
@@ -35,7 +52,7 @@ function modhubCrawlerService($http, $q, $sce){
                 return $.parseHTML(data);
             }
         }).then(function (response){
-            return allCategories = parseCategories(response.data);
+            return allCategories = parseCategoriesPage(response.data);
         }, function(response){ // Fail
             if(response.status == 503 || response.status == 522 || response.status == 523){
                 return getCategories();
@@ -57,7 +74,7 @@ function modhubCrawlerService($http, $q, $sce){
             }
         
         }).then(function(response){ // Success
-            return parseModPage(response.data, category);
+            return parseModListPage(response.data, category);
         }, function(response){ // Fail
             if(response.status == 503 || response.status == 522 || response.status == 523){
                 return getPage(pageNr);
@@ -67,7 +84,19 @@ function modhubCrawlerService($http, $q, $sce){
         });
     }
 
-    function parseCategories(page) {
+    function parseModPage(page){
+        var dataObj = $(page);
+        
+        var downloadElement = dataObj.find('.download-box a');
+
+        var modObj = {
+            downloadUrl: downloadElement.attr('href')
+        }
+
+        return modObj;
+    }
+
+    function parseCategoriesPage(page) {
         var dataObj = $(page);
 
         var categories = {};
@@ -81,7 +110,7 @@ function modhubCrawlerService($http, $q, $sce){
         return categories;
     }
 
-    function parseModPage(page, category){
+    function parseModListPage(page, category){
         var dataObj = $(page);
     
         var nextElement = dataObj.find('.pagination-next > a');

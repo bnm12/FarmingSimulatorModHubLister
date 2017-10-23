@@ -83,7 +83,9 @@ function modListController(modhubCrawlerService, $location, $http, $q) {
 
     vm.downloadMod = function(mod){
 
-        iframe.attr('src', 'https://cdn16.giants-software.com/modHub/storage/' + ("0000000"+mod.id).slice(-8) + '/FS17_' + mod.title.split(' ').join('_') + '.zip');
+        modhubCrawlerService.getMod(mod.id).then(function(modData){
+            iframe.attr('src', modData.downloadUrl);
+        });
 
         /*
         $http({
