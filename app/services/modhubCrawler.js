@@ -3,6 +3,8 @@ angular.module('FarmingSimApp').factory('modhubCrawlerService', modhubCrawlerSer
 modhubCrawlerService.$inject = ['$http', '$q', '$sce'];
 
 var proxyNr = 0;
+var allCategories;
+
 
 function modhubCrawlerService($http, $q, $sce){
 
@@ -33,7 +35,7 @@ function modhubCrawlerService($http, $q, $sce){
                 return $.parseHTML(data);
             }
         }).then(function (response){
-            return parseCategories(response.data);
+            return allCategories = parseCategories(response.data);
         }, function(response){ // Fail
             if(response.status == 503 || response.status == 522 || response.status == 523){
                 return getCategories();
@@ -68,12 +70,13 @@ function modhubCrawlerService($http, $q, $sce){
     function parseCategories(page) {
         var dataObj = $(page);
 
-        var categories = [];
+        var categories = {};
 
         dataObj.find('.tabs > .tabs-title:contains("CATEGORY") > ul > li > a').each(function(index){
             var ele = this;
 
-            categories.push(ele.search.match(/filter=(.*)&/i)[1]);
+            categories[categories[index] = ele.search.match(/filter=(.*)&/i)[1]] = ele.innerText;
+            categories.length = index + 1;
         });
         return categories;
     }
@@ -92,10 +95,15 @@ function modhubCrawlerService($http, $q, $sce){
             modObjs.push(parseModItem(this, category));
     
         });
-    
+        
+        var catObj = {};
+        catObj[category] = allCategories[category]
+        catObj[0] = category;
+        catObj.length = 1;
+
         var rtnObj = {
             mods: modObjs,
-            category: category,
+            category: catObj,
             nextPageId: nextElement.length ? nextElement.get(0).search.match(/(\d*?)$/i)[1] * 1 : undefined,
             prevPageId: prevElement.length ? prevElement.get(0).search.match(/(\d*?)$/i)[1] * 1 : undefined,
             maxPage: maxElement.length ? maxElement.text() - 1 : undefined
@@ -109,7 +117,12 @@ function modhubCrawlerService($http, $q, $sce){
         
         var itemContent = ele.find('.mod-item__content');
         var ratingString = itemContent.find('.mod-item__rating-num').text() || "0 (0)";
-    
+        
+        var catObj = {};
+        catObj[category] = allCategories[category]
+        catObj[0] = category;
+        catObj.length = 1;
+
         var modObj = {
             id: ele.find('.mod-item__img > a').get(0).search.match(/mod_id=(\d*?)&/i)[1] * 1,
             imageUrl: ele.find('.mod-item__img > a > img').get(0).src,
@@ -118,7 +131,7 @@ function modhubCrawlerService($http, $q, $sce){
             rating: ratingString.match(/(^[\d.]*)/i)[1],
             votes: ratingString.match(/\(([\d]*?)\)$/im)[1],
             label: ele.find('.mod-label').text().replace('!', ''),
-            categories: [category]
+            categories: catObj
         };
     
         $sce.trustAsResourceUrl('https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent(modObj.imageUrl));

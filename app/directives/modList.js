@@ -37,7 +37,12 @@ function modListController(modhubCrawlerService, $location, $http, $q) {
                     for(var j = 0; j < notDupes.length; j++){
                         if(vm.mods[i].id === notDupes[j].id){
                             var combinedMod = vm.mods[i];
-                            combinedMod.categories = combinedMod.categories.concat(notDupes[j].categories);
+
+                            for(var k = 0; k < notDupes[j].categories.length; k++){
+                                combinedMod.categories[notDupes[j].categories[k]] = notDupes[j].categories[notDupes[j].categories[k]] // This mess grabs the key and assigns it the value of that key 
+                                combinedMod.categories[combinedMod.categories.length++] = notDupes[j].categories[k] // This mess grabs the key and assigns it to the biggest index and increments the length
+                            }
+
                             vm.mods[i] = combinedMod;
                             notDupes.splice(j, 1);
                             j--; // Go back one to make the index match again
@@ -60,12 +65,20 @@ function modListController(modhubCrawlerService, $location, $http, $q) {
         return modhubCrawlerService.getPage(page, category).then(function(data){
             mods = mods.concat(data.mods)
             if(data.nextPageId !== undefined){
-                return getPage(data.nextPageId, data.category, mods);
+                return getPage(data.nextPageId, data.category[0], mods);
             }
             else {
                 return $q.when(mods);
             }
         });
+    }
+
+    vm.renderCategories = function(categories) {
+        var cats = [];
+        for(var i = 0; i < categories.length; i++){
+            cats.push(categories[categories[i]]);
+        }
+        return cats.join(', ');
     }
 
     vm.downloadMod = function(mod){
