@@ -2,9 +2,12 @@ angular.module('FarmingSimApp').factory('modhubCrawlerService', modhubCrawlerSer
 
 modhubCrawlerService.$inject = ['$http', '$q', '$sce'];
 
-var proxyNr = 0;
+var proxyNr = getRandomInt(3);
 var allCategories;
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
 
 function modhubCrawlerService($http, $q, $sce){
 
@@ -170,7 +173,7 @@ function modhubCrawlerService($http, $q, $sce){
 }
 
 function generateCORSUrl(url) {
-
+    /*
     if (proxyNr === 0){
         proxyNr = 1;
         return 'https://galvanize-cors-proxy.herokuapp.com/' + encodeURI(url);
@@ -179,22 +182,19 @@ function generateCORSUrl(url) {
         proxyNr = 0;
         return 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent(url);
     }
-/*
-    switch (selectedProxy){
+    */
+
+    proxyNr = getRandomInt(3);
+
+    switch (proxyNr){
         case 0:
             return 'https://crossorigin.me/' + encodeURI(url);
         
         case 1:
             return 'https://cors-anywhere.herokuapp.com/' + encodeURI(url);
-        
+            
         case 2:
-            return 'https://jsonp.afeld.me/?url=' + encodeURIComponent(url);
-
-        case 3:
-            return 'https://galvanize-cors-proxy.herokuapp.com/' + encodeURI(url);
-        
-        case 4:
-            return 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURI(url);
+            return 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent(url);
     }
-*/
+/**/
 }
