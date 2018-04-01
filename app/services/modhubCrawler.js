@@ -161,7 +161,7 @@ function modhubCrawlerService($http, $q, $sce){
             title: itemContent.children('h4').text(),
             creator: itemContent.find('p > span').text().match(/By: (.*?$)/i)[1],
             rating: ratingString.match(/(^[\d.]*)/i)[1],
-            votes: ratingString.match(/\(([\d]*?)\)$/im)[1],
+            votes: parseInt(ratingString.match(/\(([\d]*?)\)$/im)[1], 10),
             label: ele.find('.mod-label').text().replace('!', ''),
             categories: catObj
         };
