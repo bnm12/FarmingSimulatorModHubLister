@@ -184,7 +184,7 @@ function generateCORSUrl(url) {
     }
     */
 
-    proxyNr = getRandomInt(3);
+    proxyNr = getRandomInt(2);
 
     switch (proxyNr){
         case 0:
