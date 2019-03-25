@@ -183,8 +183,8 @@ function generateCORSUrl(url) {
         return 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent(url);
     }
     */
-
-    proxyNr = getRandomInt(2);
+return 'https://cors-anywhere.herokuapp.com/' + encodeURI(url);
+    proxyNr = getRandomInt(1);
 
     switch (proxyNr){
         case 0:
