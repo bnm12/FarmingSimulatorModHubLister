@@ -49,7 +49,7 @@ function modhubCrawlerService($http, $q, $sce){
     function getCategories() {
         return $http({
             method: 'GET',
-            url: generateCORSUrl(baseUrl + '/mods.php?filter=latest&page=10000000'),
+            url: generateCORSUrl(baseUrl + '/mods.php?filter=latest&title=fs2017&page=10000000'),
             transformResponse : function(data) {
                 // string -> XML document object
                 return $.parseHTML(data);
@@ -70,7 +70,7 @@ function modhubCrawlerService($http, $q, $sce){
         return $http({
         
             method: 'GET', 
-            url: generateCORSUrl(baseUrl + '/mods.php?filter=' + category + '&page=' + pageNr),
+            url: generateCORSUrl(baseUrl + '/mods.php?filter=' + category + '&title=fs2017&page=' + pageNr),
             transformResponse : function(data) {
                 // string -> XML document object
                 return $.parseHTML(data);
