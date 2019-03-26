@@ -3,13 +3,16 @@ angular.module('FarmingSimApp').directive('modList', modList).controller('modLis
 function modList(){
     return {
         templateUrl: 'directives/modList.html',
-        controller: 'modListController as modListCtl'
+        controller: 'modListController as modListCtl',
+        scope: {
+            version: '='
+        }
     }
 }
 
-modListController.$inject = ['modhubCrawlerService', '$location', '$http', '$q'];
+modListController.$inject = ['modhubCrawlerService', '$location', '$http', '$q', '$scope'];
 
-function modListController(modhubCrawlerService, $location, $http, $q) {
+function modListController(modhubCrawlerService, $location, $http, $q, $scope) {
 
     var vm = this;
 
@@ -24,6 +27,8 @@ function modListController(modhubCrawlerService, $location, $http, $q) {
         if($location.search().noImages) return null;
         return 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent(url);
     }
+
+    modhubCrawlerService.setVersion($scope.version);
 
     modhubCrawlerService.getCategories().then(function(categories){
         vm.categories = categories;
@@ -86,20 +91,5 @@ function modListController(modhubCrawlerService, $location, $http, $q) {
         modhubCrawlerService.getMod(mod.id).then(function(modData){
             iframe.attr('src', modData.downloadUrl);
         });
-
-        /*
-        $http({
-            method: 'GET',
-            url: 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent('https://cdn16.giants-software.com/modHub/storage/' + ("0000000"+mod.id).slice(-8) + '/FS17_' + mod.title.split(' ').join('_') + '.zip'),
-            responseType: 'arraybuffer'
-        }).then(function(response){
-            var blob = new Blob([response.data], { type:"application/octet-stream" });			
-            var downloadLink = angular.element('<a></a>');
-            downloadLink.attr('href',(window.URL || window.webkitURL).createObjectURL(blob));
-            downloadLink.attr('download', 'FS17_' + mod.title.split(' ').join('_') + '.zip');
-            downloadLink[0].click();
-        });
-        */
-
     }
 }

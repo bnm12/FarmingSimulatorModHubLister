@@ -12,7 +12,7 @@
     </script>
 
     <meta charset="utf-8">
-    <title>Farming Simulator 17 Mod Listing</title>
+    <title>Farming Simulator Mod Listing</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" href="app.css" />
 
@@ -26,14 +26,18 @@
     <script src="services/modhubCrawler.js"></script>
 
   </head>
-  <body>
+  <body ng-controller="BaseController as BaseController">
 
-    <div class="container-fluid">
-      <h1>Farming Simulator 17 modhub listing</h1>
+    <div class="container-fluid" ng-if="BaseController.selectedVersion">
+      <h1>Farming Simulator {{BaseController.selectedVersion}} modhub listing</h1>
 
-    <div mod-list>
+      <div mod-list version="BaseController.selectedVersion">
 
+      </div>
     </div>
+    <div class="container-fluid" ng-if="!BaseController.selectedVersion">
+      <h1>Please select your desired version</h1>
+      <img class="version-choice clickable" src="img/FS_17_logo.png" ng-click="BaseController.selectVersion('fs2017')"> <img class="version-choice clickable" src="img/FS_19_logo.png" ng-click="BaseController.selectVersion('fs2019')">
     </div>
 
   </body>

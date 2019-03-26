@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('FarmingSimApp', [
+var app = angular.module('FarmingSimApp', [
   'ngAnimate',
   'ngSanitize',
   'angularUtils.directives.dirPagination'
@@ -14,3 +14,15 @@ angular.module('FarmingSimApp', [
       $locationProvider.hashPrefix('!');
   
   }]);
+
+  app.controller('BaseController', ['$scope', function($scope) {
+    var vm = this;
+    var urlParams = new URLSearchParams(window.location.search);
+
+    vm.selectedVersion = urlParams.get('version');;
+
+    vm.selectVersion = function(version) {
+      vm.selectedVersion = version;
+      history.pushState({version: version}, version, window.location.href + "?version=" + version);
+    }
+  }])

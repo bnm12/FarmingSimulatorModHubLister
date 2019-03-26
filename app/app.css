@@ -1,4 +1,4 @@
-th.clickable {
+.clickable {
   cursor: pointer;
 }
 th.clickable:hover {
@@ -8,4 +8,11 @@ th.clickable:hover {
 .mod-thumbnail {
   height: 128px;
   width: 128px;
+}
+
+.version-choice {
+  margin: 20px;
+  width: 440px;
+  height: 220px;
+  border: 2px solid darkgray;
 }

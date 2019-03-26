@@ -2,8 +2,9 @@ angular.module('FarmingSimApp').factory('modhubCrawlerService', modhubCrawlerSer
 
 modhubCrawlerService.$inject = ['$http', '$q', '$sce'];
 
-var proxyNr = getRandomInt(3);
+var proxyNr = getRandomInt(2);
 var allCategories;
+var fsVersion = "";
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -21,11 +22,17 @@ function modhubCrawlerService($http, $q, $sce){
 
         getCategories: getCategories,
 
-        getMod: getMod
+        getMod: getMod,
+
+        setVersion: setVersion,
 
     }
 
     return service;
+
+    function setVersion(version) {
+        fsVersion = version;
+    }
 
     function getMod(modId) {
         return $http({
@@ -183,7 +190,7 @@ function generateCORSUrl(url) {
         return 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent(url);
     }
     */
-    url += '&title=' + 'fs2017'
+    url += '&title=' + fsVersion
     proxyNr = getRandomInt(2);
 
     switch (proxyNr){
