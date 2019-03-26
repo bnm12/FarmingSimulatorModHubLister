@@ -24,7 +24,7 @@
     </thead>
     <tbody>
         <tr dir-paginate="mod in modListCtl.mods | filter: searchString | orderBy: orderObj: desc | itemsPerPage: modListCtl.pageSize">
-            <td><img ng-src="{{::modListCtl.imageLoader(mod.imageUrl)}}" title="{{::mod.id}}" class="mod-thumbnail" /></td>
+            <td><img ng-if="!modListCtl.noImages" ng-src="{{::modListCtl.imageLoader(mod.imageUrl)}}" title="{{::mod.id}}" class="mod-thumbnail" /><span ng-if="modListCtl.noImages">{{::mod.id}}</span></td>
             <td><a ng-href="https://farming-simulator.com/mod.php?lang=en&country=us&title=fs2017&mod_id={{::mod.id}}">{{::mod.title}}</a></td>
             <td>{{::mod.creator}}</td>
             <td>{{::mod.rating}}</td>

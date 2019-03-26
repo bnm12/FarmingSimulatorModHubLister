@@ -22,12 +22,13 @@ function modListController(modhubCrawlerService, $location, $http, $q, $scope) {
     vm.loading = true;
 
     vm.pageSize = $location.search().pageSize || 20;
+    vm.noImages = $location.search().noImages;
 
     vm.imageLoader = function(url){
-        if($location.search().noImages) return null;
+        if(vm.noImages) return null;
         return 'https://referer-host-proxy.herokuapp.com/?url=' + encodeURIComponent(url);
     }
-
+    
     modhubCrawlerService.setVersion($scope.version);
 
     modhubCrawlerService.getCategories().then(function(categories){

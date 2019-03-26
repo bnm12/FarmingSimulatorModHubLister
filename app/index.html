@@ -29,7 +29,7 @@
   <body ng-controller="BaseController as BaseController">
 
     <div class="container-fluid" ng-if="BaseController.selectedVersion">
-      <h1>Farming Simulator {{BaseController.selectedVersion}} modhub listing</h1>
+      <h1>Farming Simulator {{BaseController.selectedVersion.substring(2)}} modhub listing</h1>
 
       <div mod-list version="BaseController.selectedVersion">
 
